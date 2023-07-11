@@ -1,0 +1,44 @@
+https://medium.com/@ianhutch90/google-drive-file-upload-using-the-terminal-3652ee90a6f6
+// pas essayé encore : https://medium.com/geekculture/how-to-upload-file-to-google-drive-from-linux-command-line-69668fbe4937
+
+{"installed":{
+"client_id":"1076193011248-e5tgms6npedei660jjssl6csgem49epr.apps.googleusercontent.com",
+"project_id":"agenda-bf245",
+"auth_uri":"https://accounts.google.com/o/oauth2/auth",
+"token_uri":"https://oauth2.googleapis.com/token",
+"auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+"client_secret":"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"}}
+
+VERIFY_DEVICE=`curl -d “client_id=”$CLIENT_ID”&scope=$SCOPE” https://oauth2.googleapis.com/device/code`
+echo $VERIFY_DEVICE
+{ “device_code”: “XXXXXXXXXXXXXXXXXXXXXXXX”, “user_code”: “NRDJ-SHDX”, “expires_in”: 1800, “interval”: 5, “verification_url”: “https://www.google.com/device" }
+
+curl -d "client_id=1076193011248-e5tgms6npedei660jjssl6csgem49epr.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.file" https://oauth2.googleapis.com/device/code
+
+{
+  "device_code": "AH-1Ng2pFn5gS0hoaoLwRS96X6Ty9mRY7Xgr_CkagHVqw6MzgjorUfYJUVN4nJTNeW0KTwphIFexlFpBAL93P1DxiAyMX4FIpQ",
+  "user_code": "RZNR-RPTV",
+  "expires_in": 1800,
+  "interval": 5,
+  "verification_url": "https://www.google.com/device"
+
+DEVICE_CODE=`echo $VERIFY_DEVICE | jq -r ‘.device_code’`
+echo $DEVICE_CODE
+
+BEARER=`curl -d client_id=$CLIENT_ID \
+ -d client_secret=$CLIENT_SECRET \
+ -d device_code=$DEVICE_CODE \
+ -d grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Adevice_code https://accounts.google.com/o/oauth2/token`
+
+curl -d client_id="1076193011248-e5tgms6npedei660jjssl6csgem49epr.apps.googleusercontent.com" \
+ -d client_secret="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" \
+ -d device_code="AH-1Ng2pFn5gS0hoaoLwRS96X6Ty9mRY7Xgr_CkagHVqw6MzgjorUfYJUVN4nJTNeW0KTwphIFexlFpBAL93P1DxiAyMX4FIpQ" \
+ -d grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Adevice_code https://accounts.google.com/o/oauth2/token
+
+{
+  "access_token": "ya29.a0AWY7Ckl5el8Aur5wx4TyUlqPyh_UdfGqgsfAprLCcRJjbu8o3ziRwFxdzvgQUYoVTpB6CN52H6K_MqJNyHOWP6eaOol5H3A2hCZYVI9Y1vqlbBRBeOlbCDiprAhaHy05YZQBDKFQnObGejoRp7xXcuaVSBwsaCgYKAUISARASFQG1tDrpzhIT3XBM0Yrg3yfCUN96UA0163",
+  "expires_in": 3599,
+  "refresh_token": "1//03PuQIlXWG_2RCgYIARAAGAMSNwF-L9IrqfBnXts8iK-6oOtsLFHOO-XByTbOjycSa3PGlto-MCEt7TDCKJq_Z_z_t83E42FUAMM",
+  "scope": "https://www.googleapis.com/auth/drive.file",
+  "token_type": "Bearer"
+}
