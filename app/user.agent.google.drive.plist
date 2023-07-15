@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>Disabled</key>
-	<false/>
+	<true/>
 	<key>Label</key>
 	<string>user.agent.google.drive.plist</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/usr/bin/osascript</string>
+		<string>osascript</string>
 		<string>~/Library/Scripts/scpt.google.drive.agent.scpt</string>
 	</array>
 	<key>RunAtLoad</key>

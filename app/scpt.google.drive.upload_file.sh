@@ -5,7 +5,7 @@
 # fail fast
 set -e pipefail
 
-UPLOAD=$(curl "https://www.googleapis.com/upload/drive/v3/files?uploadType=media" \
+UPLOAD=$(curl "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart" \
  -X POST -L \
  -H "Authorization: Bearer $TOKEN" \
  -F "metadata={name : '$NAMEFILE', parents:['$FOLDER_ID']};type=application/json;charset=UTF-8" \
